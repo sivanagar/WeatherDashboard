@@ -1,37 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Weather Dashboard</title>
 </head>
+
 <body>
-    <div class="row navbar sticky-top navbar-dark bg-primary">
-        <header class=""><h1>Weather Dashboard</h1></header>
+    <div class="row shaddow center rounded bg-secondary justify-content-center">
+        <header class="text-white h1 text-center">
+            <h1>Weather Dashboard</h1>
+        </header>
     </div>
     <div class="row">
-        <div class="col">
-            
+        <div class="col-3">
+
             <div>
                 <form class="form-inline">
                     <label class="sr-only" for="searchCity">City</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="searchCity" placeholder="Enter City">
-                    <button type="submit" class="btn btn-primary mb-2" id="search">Search</button>
+
+                    <button type="submit" class="btn btn-secondary mb-2" id="search">
+                        <img src="./assets/img/search_black_24dp.svg" alt="" />
+                    </button>
                 </form>
             </div>
             <div>
-                <ul id="searchHistory"></ul>
+                <ul id="searchHistory" class="list-group"></ul>
             </div>
         </div>
-        <main  class="col">
-            <div class="row">today weather</div>
-            <div class="row">5 days forcast cards</div>
+        <main class="col-9">
+            <div class="row jumbotron ">
+                <div class="col-4">
+                    <h3 class="card-title">City Name</h3>
+                    <h6 class="card-subtitle">Date</h6>
+                    <div>
+                        <span>TEMP</span>
+                        <span>icon</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div>
+                        <span>humidity</span>
+                        <span>icon</span>
+                    </div>
+                    <div>
+                        <span>wind speed</span>
+                        <span>icon</span>
+                    </div>
+                    <div>
+                        <span>UV</span>
+                        <span>icon</span>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+            <div class="row">
+                <h2>5-Day Forecast</h2>
+            </div>
+            <div class="row card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Date</h3>
+                        <div class="icon">icon</div>
+                        <div class="temp">temp</div>
+                        <div class="wind">wind</div>
+                        <div class="humidity">humidity</div>
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Date</h3>
+                        <div class="icon">icon</div>
+                        <div class="temp">temp</div>
+                        <div class="wind">wind</div>
+                        <div class="humidity">humidity</div>
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Date</h3>
+                        <div class="icon">icon</div>
+                        <div class="temp">temp</div>
+                        <div class="wind">wind</div>
+                        <div class="humidity">humidity</div>
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Date</h3>
+                        <div class="icon">icon</div>
+                        <div class="temp">temp</div>
+                        <div class="wind">wind</div>
+                        <div class="humidity">humidity</div>
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Date</h3>
+                        <div class="icon">icon</div>
+                        <div class="temp">temp</div>
+                        <div class="wind">wind</div>
+                        <div class="humidity">humidity</div>
+
+                    </div>
+                </div>
+
+
+            </div>
         </main>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -42,4 +133,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
+
 </html>
