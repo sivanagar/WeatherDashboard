@@ -20,12 +20,14 @@
             
             <div>
                 <form class="form-inline">
-                    <label class="sr-only" for="inlineFormInputName2">City</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Enter City">
-                    <button onclick="searchCity()" type="submit" class="btn btn-primary mb-2" id="search">Search</button>
+                    <label class="sr-only" for="searchCity">City</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="searchCity" placeholder="Enter City">
+                    <button type="submit" class="btn btn-primary mb-2" id="search">Search</button>
                 </form>
             </div>
-            <div>search history loads localstorage display labels, clickable</div>
+            <div>
+                <ul id="searchHistory"></ul>
+            </div>
         </div>
         <main  class="col">
             <div class="row">today weather</div>
