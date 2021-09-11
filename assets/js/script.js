@@ -1,5 +1,6 @@
 var searchHistory = []
 var searchCityInput = document.getElementById("searchCity");
+var todayWeatherEl = document.getElementById("todayWeather");
 var apiKey="ef360dfd13065444f31dda06f4972fc0"
 var todayWeather = {}
 
@@ -23,45 +24,55 @@ var addHistory = function (index) {
     $("#searchHistory").append(searchItem);
 }
 
+function displayWeather(data) {
+    const todayWeather = 
+    `<div class="row jumbotron">
+        <div class="col-4">
+            <h3 class="card-title">${cityName}, ${cityState}</h3>
+            <h6 class="card-subtitle">${moment(data.current.dt,"HH:mm")}</h6>
+            <div>
+                <span>${data.current.temp}°</span>
+                <span>
+                <img src=" http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png"/></span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div>
+                <span><i class="fas fa-tint"></i> Humidity</span>
+                <span>${data.current.humidity}%</span>
+            </div>
+            <div>
+                <span><i class="fas fa-wind"></i> Wind Speed</span>
+                <span>${data.current.wind_speed} mph</span>
+            </div>
+            <div>
+                <span><i class="fas fa-sun"></i> UV Index</span>
+                <span>${data.current.uvi} of 10</span>
+            </div>
+        </div>
+    </div>
+    `
+    todayWeatherEl.innerHTML=todayWeather;
+}
+
 function searchCity() {
     //send to api
-    fetch("https://api.openweathermap.org/data/2.5/weather?q="+searchCityInput+ '&units=imperial&appid=' + apiKey)
+    fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+ cityLat +'&lon='+ cityLng +'&units=imperial&appid='+apiKey)
         .then(function(response) {
             return response.json();
         })
         .then(function(data) {
             //use data to show info
             console.log(data);
-            todayWeather = {
-                "city" : data.name,
-                "coord" : {"lat": data.coord.lat,
-                            "lon": data.coord.lon},
-                "date" : data.dt,
-                "icon": data.weather[0].icon,
-                "temperature" : data.main.temp,
-                "humidity" : data.main.humidity, 
-                "windspeed" : data.wind.speed,
-                "uvIndex" : ""
-            }
-            console.log(todayWeather)
-            fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+ todayWeather.coord.lat+'&lon='+ todayWeather.coord.lon+'&units=imperial&appid='+apiKey)
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(data) {
-                    console.log(data)
-                })
-            
+            displayWeather(data);
         })
-    
-    
 }
 
 
 $("#search").on("click",function(event) {
     event.preventDefault();   
     searchCity();
-    searchHistory.push(searchCityInput);
+    searchHistory.push(cityName);
     addHistory(searchHistory.length - 1);
     //save search localStorage
     localStorage.setItem("citySearched", JSON.stringify(searchHistory));
@@ -74,6 +85,8 @@ displayHistory();
 //        .text();
 //    searchCity();
 //})
+
+//Google API Autocomplete
 let autocomplete;
 
 function initAutocomplete() {
@@ -93,6 +106,6 @@ function onCityChanged() {
     cityLng = place.geometry.location.lng();
     cityName = place.vicinity;
     cityState = place.address_components[2].short_name;
-    
+    searchCity();
 }
   
