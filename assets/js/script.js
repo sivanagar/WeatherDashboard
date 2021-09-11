@@ -1,6 +1,8 @@
 var searchHistory = []
 var searchCityInput = document.getElementById("searchCity");
 var todayWeatherEl = document.getElementById("todayWeather");
+var forcastEl = document.getElementById("forcast");
+
 var apiKey="ef360dfd13065444f31dda06f4972fc0"
 var todayWeather = {}
 
@@ -53,6 +55,67 @@ function displayWeather(data) {
     </div>
     `
     todayWeatherEl.innerHTML=todayWeather;
+    const forcast =`
+    <div class="row">
+                <h2>5-Day Forecast</h2>
+    </div>
+    <div class="row card-deck">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">${moment(data.daily[1].dt).format('DD.MM.YYYY')}</h4>
+                <div class="icon">icon</div>
+                <div class="temp">temp</div>
+                <div class="wind">${data.daily[1].wind_speed} mph</div>
+                <div class="humidity">${data.daily[1].humidity}%</div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Date</h3>
+                <div class="icon">icon</div>
+                <div class="temp">temp</div>
+                <div class="wind">wind</div>
+                <div class="humidity">humidity</div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Date</h3>
+                <div class="icon">icon</div>
+                <div class="temp">temp</div>
+                <div class="wind">wind</div>
+                <div class="humidity">humidity</div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Date</h3>
+                <div class="icon">icon</div>
+                <div class="temp">temp</div>
+                <div class="wind">wind</div>
+                <div class="humidity">humidity</div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Date</h3>
+                <div class="icon">icon</div>
+                <div class="temp">temp</div>
+                <div class="wind">wind</div>
+                <div class="humidity">humidity</div>
+
+            </div>
+        </div>
+
+
+    </div>
+`
+forcastEl.innerHTML = forcast;
+    
 }
 
 function searchCity() {

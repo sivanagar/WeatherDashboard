@@ -19,91 +19,33 @@
 
 <body>
     <div class="container">
-    <div class="row shaddow center rounded bg-secondary justify-content-center">
-        <header class="text-white h1 text-center">
-            <h1>Weather Dashboard</h1>
-        </header>
-    </div>
-    <div class="row mt-1">
-        <div class="col-3">
-
-            <div>
-                <form class="form-inline">
-                    <label class="sr-only" for="searchCity">City</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="searchCity" placeholder="Enter City">
-
-                    <button type="submit" class="btn btn-secondary mb-2" id="search">
-                        <img src="./assets/img/search_black_24dp.svg" alt="" />
-                    </button>
-                </form>
-            </div>
-            <div>
-                <ul id="searchHistory" class="list-group"></ul>
-            </div>
+        <div class="row shaddow center rounded bg-secondary justify-content-center">
+            <header class="text-white h1 text-center">
+                <h1>Weather Dashboard</h1>
+            </header>
         </div>
-        <main class="col-9">
-            <div id="todayWeather">
-       
+        <div class="row mt-2">
+            <div class="col-3">
+                <div>
+                    <form class="form-inline">
+                        <label class="sr-only" for="searchCity">City</label>
+                        <input type="text" class="form-control mb-2 mr-sm-2" id="searchCity" placeholder="Enter City">
+
+                        <button type="submit" class="btn btn-secondary mb-2" id="search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <i class="fas fa-crosshairs"></i>
+                    </form>
+                </div>
+                <div>
+                    <ul id="searchHistory" class="list-group"></ul>
+                </div>
             </div>
-            <div class="row">
-                <h2>5-Day Forecast</h2>
-            </div>
-            <div class="row card-deck">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Date</h3>
-                        <div class="icon">icon</div>
-                        <div class="temp">temp</div>
-                        <div class="wind">wind</div>
-                        <div class="humidity">humidity</div>
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Date</h3>
-                        <div class="icon">icon</div>
-                        <div class="temp">temp</div>
-                        <div class="wind">wind</div>
-                        <div class="humidity">humidity</div>
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Date</h3>
-                        <div class="icon">icon</div>
-                        <div class="temp">temp</div>
-                        <div class="wind">wind</div>
-                        <div class="humidity">humidity</div>
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Date</h3>
-                        <div class="icon">icon</div>
-                        <div class="temp">temp</div>
-                        <div class="wind">wind</div>
-                        <div class="humidity">humidity</div>
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Date</h3>
-                        <div class="icon">icon</div>
-                        <div class="temp">temp</div>
-                        <div class="wind">wind</div>
-                        <div class="humidity">humidity</div>
-
-                    </div>
-                </div>
-
-
-            </div>
-        </main>
-    </div>
+            <main class="col-9">
+                <div id="todayWeather"></div>
+                <div id="forcast"></div>
+            </main>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
