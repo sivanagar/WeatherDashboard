@@ -4,7 +4,7 @@ var todayWeatherEl = document.getElementById("todayWeather");
 var forcastEl = document.getElementById("forcast");
 
 var apiKey="ef360dfd13065444f31dda06f4972fc0"
-var todayWeather = {}
+
 
 
 var displayHistory = function() {
@@ -28,94 +28,49 @@ var addHistory = function (index) {
 
 function displayWeather(data) {
     const todayWeather = 
-    `<div class="row jumbotron">
-        <div class="col-4">
-            <h3 class="card-title">${cityName}, ${cityState}</h3>
-            <h6 class="card-subtitle">${moment(data.current.dt,"HH:mm")}</h6>
-            <div>
-                <span>${data.current.temp}°</span>
-                <span>
-                <img src=" http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png"/></span>
+        `<div class="row jumbotron">
+            <div class="col-4">
+                <h3 class="card-title">${cityName}, ${cityState}</h3>
+                <h6 class="card-subtitle">Today ${moment.unix(data.current.dt).format("HH:mm")}</h6>
+                <div>
+                    <span>${data.current.temp}°</span>
+                    <span>
+                    <img src=" http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png"/></span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div>
+                    <span><i class="fas fa-tint"></i> Humidity</span>
+                    <span>${data.current.humidity}%</span>
+                </div>
+                <div>
+                    <span><i class="fas fa-wind"></i> Wind Speed</span>
+                    <span>${data.current.wind_speed} mph</span>
+                </div>
+                <div>
+                    <span><i class="fas fa-sun"></i> UV Index</span>
+                    <span>${data.current.uvi} of 10</span>
+                </div>
             </div>
         </div>
-        <div class="col-4">
-            <div>
-                <span><i class="fas fa-tint"></i> Humidity</span>
-                <span>${data.current.humidity}%</span>
-            </div>
-            <div>
-                <span><i class="fas fa-wind"></i> Wind Speed</span>
-                <span>${data.current.wind_speed} mph</span>
-            </div>
-            <div>
-                <span><i class="fas fa-sun"></i> UV Index</span>
-                <span>${data.current.uvi} of 10</span>
-            </div>
-        </div>
-    </div>
-    `
+        `
     todayWeatherEl.innerHTML=todayWeather;
-    const forcast =`
-    <div class="row">
-                <h2>5-Day Forecast</h2>
-    </div>
-    <div class="row card-deck">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">${moment(data.daily[1].dt).format('DD.MM.YYYY')}</h4>
-                <div class="icon">icon</div>
-                <div class="temp">temp</div>
-                <div class="wind">${data.daily[1].wind_speed} mph</div>
-                <div class="humidity">${data.daily[1].humidity}%</div>
-
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Date</h3>
-                <div class="icon">icon</div>
-                <div class="temp">temp</div>
-                <div class="wind">wind</div>
-                <div class="humidity">humidity</div>
-
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Date</h3>
-                <div class="icon">icon</div>
-                <div class="temp">temp</div>
-                <div class="wind">wind</div>
-                <div class="humidity">humidity</div>
-
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Date</h3>
-                <div class="icon">icon</div>
-                <div class="temp">temp</div>
-                <div class="wind">wind</div>
-                <div class="humidity">humidity</div>
-
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Date</h3>
-                <div class="icon">icon</div>
-                <div class="temp">temp</div>
-                <div class="wind">wind</div>
-                <div class="humidity">humidity</div>
-
-            </div>
-        </div>
-
-
-    </div>
-`
-forcastEl.innerHTML = forcast;
     
+    forcastEl.innerHTML=''
+    data.daily.slice(1,6).map((day) => {
+        const forcast =`
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">${moment.unix(day.dt).format('ddd D')}</h4>
+                <div class="icon"><img src=" http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png"/></div>
+                <div class="temp">${day.temp.day}</div>
+                <div class="wind">${day.wind_speed} mph</div>
+                <div class="humidity">${day.humidity}%</div>
+            </div>
+        </div>`
+    forcastEl.innerHTML += forcast
+    })
+   
 }
 
 function searchCity() {
@@ -126,14 +81,14 @@ function searchCity() {
         })
         .then(function(data) {
             //use data to show info
-            console.log(data);
             displayWeather(data);
         })
 }
 
 
 $("#search").on("click",function(event) {
-    event.preventDefault();   
+    event.preventDefault(); 
+    onCityChanged()  
     searchCity();
     searchHistory.push(cityName);
     addHistory(searchHistory.length - 1);
@@ -143,11 +98,11 @@ $("#search").on("click",function(event) {
 });
 
 displayHistory();
-//$(".searchItem").on("click",function(event) {
-//    searchCityInput = $(this)
-//        .text();
-//    searchCity();
-//})
+$(".searchItem").on("click",function(event) {
+    searchCityInput = $(this)
+        .text();
+   searchCity();
+})
 
 //Google API Autocomplete
 let autocomplete;
@@ -164,7 +119,6 @@ function initAutocomplete() {
 
 function onCityChanged() {
     var place = autocomplete.getPlace();
-    //   console.log("place from Google API", place.address_components[2].short_name);
     cityLat = place.geometry.location.lat();
     cityLng = place.geometry.location.lng();
     cityName = place.vicinity;
