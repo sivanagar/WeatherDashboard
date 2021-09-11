@@ -2,10 +2,12 @@ var searchHistory = []
 var searchCityInput = document.getElementById("searchCity");
 var todayWeatherEl = document.getElementById("todayWeather");
 var forcastEl = document.getElementById("forcast");
+let cityName = "";
+let cityState = "";
+let cityLat = 0;
+let cityLng = 0;
 
 var apiKey="ef360dfd13065444f31dda06f4972fc0"
-
-
 
 var displayHistory = function() {
     searchHistory = JSON.parse(localStorage.getItem("citySearched"));
@@ -13,16 +15,16 @@ var displayHistory = function() {
         searchHistory = [];
         return
     }
-    $(searchHistory).each(function(index) {
-        addHistory(index)
+    searchHistory.forEach((city,index) => {
+        addHistory(city.cityName,index)
     })
 }
 
-var addHistory = function (index) {
+var addHistory = function (cityName,id) {
     var searchItem = $("<li>")
             .addClass("list-group-item list-group-item-action searchItem")
-            .attr("data-id",index)
-            .text(searchHistory[index])
+            .attr("data-id",id)
+            .text(cityName)
     $("#searchHistory").append(searchItem);
 }
 
@@ -33,10 +35,12 @@ function displayWeather(data) {
                 <h3 class="card-title">${cityName}, ${cityState}</h3>
                 <h6 class="card-subtitle">Today ${moment.unix(data.current.dt).format("HH:mm")}</h6>
                 <div>
-                    <span>${data.current.temp}°</span>
-                    <span>
-                    <img src=" http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png"/></span>
-                </div>
+                    <img src=" http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png"/></div>
+                    <div>
+                    <i class="fas fa-thermometer-half"></i> ${data.current.temp}°</div>
+                    
+                    
+                
             </div>
             <div class="col-4">
                 <div>
@@ -55,7 +59,7 @@ function displayWeather(data) {
         </div>
         `
     todayWeatherEl.innerHTML=todayWeather;
-    
+    $("#forcastHeader").text("5-Day Forecast");
     forcastEl.innerHTML=''
     data.daily.slice(1,6).map((day) => {
         const forcast =`
@@ -63,9 +67,9 @@ function displayWeather(data) {
             <div class="card-body">
                 <h4 class="card-title">${moment.unix(day.dt).format('ddd D')}</h4>
                 <div class="icon"><img src=" http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png"/></div>
-                <div class="temp">${day.temp.day}</div>
-                <div class="wind">${day.wind_speed} mph</div>
-                <div class="humidity">${day.humidity}%</div>
+                <div class="temp"><i class="fas fa-thermometer-half"></i> ${day.temp.day}°</div>
+                <div class="wind"><i class="fas fa-wind"></i> ${day.wind_speed} mph</div>
+                <div class="humidity"><i class="fas fa-tint"></i> ${day.humidity}%</div>
             </div>
         </div>`
     forcastEl.innerHTML += forcast
@@ -85,24 +89,17 @@ function searchCity() {
         })
 }
 
-
-$("#search").on("click",function(event) {
-    event.preventDefault(); 
-    onCityChanged()  
-    searchCity();
-    searchHistory.push(cityName);
-    addHistory(searchHistory.length - 1);
-    //save search localStorage
-    localStorage.setItem("citySearched", JSON.stringify(searchHistory));
-    
-});
-
 displayHistory();
 $(".searchItem").on("click",function(event) {
-    searchCityInput = $(this)
-        .text();
-   searchCity();
+    const indexClick = this.getAttribute("data-id");
+    cityName = searchHistory[indexClick].cityName;
+    cityState = searchHistory[indexClick].cityState;
+    cityLat = searchHistory[indexClick].cityLat;
+    cityLng = searchHistory[indexClick].cityLng;
+    searchCity();
+   
 })
+
 
 //Google API Autocomplete
 let autocomplete;
@@ -115,14 +112,29 @@ function initAutocomplete() {
     },
   });
   autocomplete.addListener("place_changed", onCityChanged);
+  //make api work on enter and not only clicks
+  google.maps.event.addDomListener(searchCityInput, 'keydown', function(e) { 
+    if (e.keyCode == 13 && $('.pac-container:visible').length) { 
+        e.preventDefault(); 
+    }
+}); 
 }
+
+
 
 function onCityChanged() {
     var place = autocomplete.getPlace();
+    if (!place.geometry) {
+        searchCityInput ="Please select city from the list"
+    } else {
     cityLat = place.geometry.location.lat();
     cityLng = place.geometry.location.lng();
     cityName = place.vicinity;
     cityState = place.address_components[2].short_name;
+    searchHistory.push({"cityName": cityName,"cityLat": cityLat,"cityLng": cityLng, "cityState": cityState});
     searchCity();
+    addHistory(cityName,searchHistory.length-1);
+    localStorage.setItem("citySearched", JSON.stringify(searchHistory));
+    }
 }
   

@@ -13,12 +13,12 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="https://kit.fontawesome.com/9fb02cf5c2.js" crossorigin="anonymous"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <title>Weather Dashboard</title>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row shaddow center rounded bg-secondary justify-content-center">
             <header class="text-white h1 text-center">
                 <h1>Weather Dashboard</h1>
@@ -29,12 +29,17 @@
                 <div>
                     <form class="form-inline">
                         <label class="sr-only" for="searchCity">City</label>
-                        <input type="text" class="form-control mb-2 mr-sm-2" id="searchCity" placeholder="Enter City">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text"><i class="fas fa-search"></i></div>
+                            </div>
+                            <input type="text" class="form-control" onfocus = 'this.value = ""' id="searchCity" placeholder="Enter City">
+                        </div>
 
-                        <button type="submit" class="btn btn-secondary mb-2" id="search">
-                            <i class="fas fa-search"></i>
+                        <button type="submit" class="btn btn-secondary mb-2 sr-only" id="search">
+                           Search
                         </button>
-                        <i class="fas fa-crosshairs"></i>
+                                               
                     </form>
                 </div>
                 <div>
@@ -44,7 +49,7 @@
             <main class="col-9">
                 <div id="todayWeather"></div>
                 <div class="row">
-                    <h2>5-Day Forecast</h2>
+                    <h2 id="forcastHeader"></h2>
                 </div>
                 <div class="row card-deck" id="forcast"></div>
                 
@@ -57,7 +62,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAekD3jUuuHxsJt5oCEP_nX7kS0WVhYeDg&libraries=places&callback=initAutocomplete"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTiJX5mUcomqbc6PV9OFXb94Pd4MiTdh0&libraries=places&callback=initAutocomplete"
       async defer
     ></script>
     <script src="./assets/js/script.js"></script>
