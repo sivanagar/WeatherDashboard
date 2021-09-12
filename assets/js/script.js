@@ -29,31 +29,42 @@ var addHistory = function (cityName,id) {
 }
 
 function displayWeather(data) {
+    var uvBadge = ""
+    if (data.current.uvi < 3 ) {
+        uvBadge = "badge-success"
+    } else if (data.current.uvi < 6 ) {
+        uvBadge = "badge-warning"
+    } else {
+        uvBadge = "badge-danger"
+    }
     const todayWeather = 
-        `<div class="row jumbotron">
+        `<div class="row jumbotron m-1">
             <div class="col-4">
                 <h3 class="card-title">${cityName}, ${cityState}</h3>
                 <h6 class="card-subtitle">Today ${moment.unix(data.current.dt).format("HH:mm")}</h6>
-                <div>
-                    <img src=" http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png"/></div>
-                    <div>
-                    <i class="fas fa-thermometer-half"></i> ${data.current.temp}°</div>
-                    
-                    
-                
+                <p>(${moment.unix(data.current.dt).format('MMM Do YYYY')})</p>
+                <h4>
+                    <i class="fas fa-thermometer-half"></i> ${data.current.temp}°
+                </h4>
+                <h6>${data.current.weather[0].description} </h6>
             </div>
             <div class="col-4">
-                <div>
-                    <span><i class="fas fa-tint"></i> Humidity</span>
+                
+                <img src=" http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png"/>
+            </div>
+          
+            <div class="col-4">
+                <div data-toggle="tooltip" data-placement="left" title="Humidity">
+                    <span><i class="fas fa-tint"></i> </span>
                     <span>${data.current.humidity}%</span>
                 </div>
-                <div>
-                    <span><i class="fas fa-wind"></i> Wind Speed</span>
+                <div data-toggle="tooltip" data-placement="left" title="Wind Speed">
+                    <span><i class="fas fa-wind"></i></span>
                     <span>${data.current.wind_speed} mph</span>
                 </div>
-                <div>
-                    <span><i class="fas fa-sun"></i> UV Index</span>
-                    <span>${data.current.uvi} of 10</span>
+                <div data-toggle="tooltip" data-placement="left" title="UV Index">
+                    <span><i class="fas fa-sun"></i> </span>
+                    <span class="badge ${uvBadge}">${data.current.uvi}</span>
                 </div>
             </div>
         </div>
@@ -137,4 +148,9 @@ function onCityChanged() {
     localStorage.setItem("citySearched", JSON.stringify(searchHistory));
     }
 }
+
+//tooltip function
+$(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
   
